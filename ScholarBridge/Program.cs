@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using ScholarBridge.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ScholarBridgeContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("baglan")));
+
+
 
 var app = builder.Build();
 
