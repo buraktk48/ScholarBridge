@@ -1,6 +1,6 @@
 ﻿namespace ScholarBridge.Models
 {
-    public class Application
+    public class Applications
     {
         public int Id { get; set; }
         public int StudentId { get; set; } 
