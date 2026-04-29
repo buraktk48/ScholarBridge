@@ -8,4 +8,4 @@
         public DateTime Date { get; set; }
     }
 }
-}
+
