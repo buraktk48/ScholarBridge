@@ -7,6 +7,9 @@ public partial class DonorDetail
 {
     public int UserId { get; set; }
 
+    public string? DonorName { get; set; }
+    public string? DonorSurname { get; set; }
+
     public string? Occupation { get; set; }
 
     public string? Bio { get; set; }
