@@ -1,5 +1,70 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@model ScholarBridge.Models.Scholarship
+
 @{
+    ViewData["Title"] = "Yeni Burs İlanı Ver";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card card-primary card-outline shadow-sm">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="bi bi-megaphone-fill me-2 text-primary"></i> Yeni Burs İlanı Oluştur</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form action="/Organization/Create" method="post">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="Title" class="form-label">İlan Başlığı</label>
+                            <input type="text" class="form-control" id="Title" name="Title" placeholder="Örn: 2024-2025 Eğitim Dönemi Üstün Başarı Bursu" required>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="AmountPerStudent" class="form-label">Aylık Burs Miktarı (₺)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₺</span>
+                                    <input type="number" class="form-control" id="AmountPerStudent" name="AmountPerStudent" placeholder="Örn: 2500" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="DurationInMonths" class="form-label">Süresi (Ay)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="DurationInMonths" name="DurationInMonths" placeholder="Örn: 9" required>
+                                    <span class="input-group-text">Ay</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="Quota" class="form-label">Kontenjan (Kişi Sayısı)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-people-fill"></i></span>
+                                    <input type="number" class="form-control" id="Quota" name="Quota" placeholder="Kaç öğrenciye verilecek?" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="Deadline" class="form-label">Son Başvuru Tarihi</label>
+                                <input type="date" class="form-control" id="Deadline" name="Deadline" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="RequirementSummary" class="form-label">Başvuru Şartları & Açıklama</label>
+                            <textarea class="form-control" id="RequirementSummary" name="RequirementSummary" rows="4" placeholder="Bursun şartlarını, kimlerin başvurabileceğini ve diğer detayları buraya yazınız..."></textarea>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer text-end">
+                        <a href="/Organization/Index" class="btn btn-outline-secondary me-2">İptal</a>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill me-1"></i> İlanı Yayınla</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

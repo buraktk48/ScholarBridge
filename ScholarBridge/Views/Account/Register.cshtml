@@ -80,21 +80,28 @@
                         <form action="/Account/RegisterStudent" method="post">
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="studentName" type="text" class="form-control" placeholder="" required />
-                                    <label for="studentName">Ad Soyad</label>
+                                    <input id="studentName" name="StudentName" type="text" class="form-control" placeholder="" required />
+                                    <label for="studentName">Adınız</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-person"></span></div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="studentEmail" type="email" class="form-control" placeholder="" required />
+                                    <input id="studentSurname" name="StudentSurname" type="text" class="form-control" placeholder="" required />
+                                    <label for="studentSurname">Soyadınız</label>
+                                </div>
+                                <div class="input-group-text"><span class="bi bi-person"></span></div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="form-floating">
+                                    <input id="studentEmail" name="Email" type="email" class="form-control" placeholder="" required />
                                     <label for="studentEmail">Üniversite E-posta (.edu.tr)</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-envelope"></span></div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="studentPassword" type="password" class="form-control" placeholder="" required />
+                                    <input id="studentPassword" name="PasswordHash" type="password" class="form-control" placeholder="" required />
                                     <label for="studentPassword">Şifre</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
@@ -105,31 +112,31 @@
 
                     <!-- Foundation Form -->
                     <div class="tab-pane fade" id="foundation-form" role="tabpanel" aria-labelledby="foundation-tab">
-                        <form action="/Account/RegisterFoundation" method="post">
+                        <form action="/Account/RegisterOrganization" method="post">
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="foundationName" type="text" class="form-control" placeholder="" required />
+                                    <input id="foundationName" name="OrgName" type="text" class="form-control" placeholder="" required />
                                     <label for="foundationName">Vakıf / Kurum Adı</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-building"></span></div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="foundationEmail" type="email" class="form-control" placeholder="" required />
+                                    <input id="foundationEmail" name="Email" type="email" class="form-control" placeholder="" required />
                                     <label for="foundationEmail">Kurumsal E-posta</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-envelope"></span></div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="foundationTax" type="text" class="form-control" placeholder="" required />
+                                    <input id="foundationTax" name="TaxNumber" type="text" class="form-control" placeholder="" required />
                                     <label for="foundationTax">Vergi / Mersis No</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-file-earmark-text"></span></div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="foundationPassword" type="password" class="form-control" placeholder="" required />
+                                    <input id="foundationPassword" name="PasswordHash" type="password" class="form-control" placeholder="" required />
                                     <label for="foundationPassword">Şifre</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>
@@ -143,21 +150,28 @@
                         <form action="/Account/RegisterDonor" method="post">
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="donorName" type="text" class="form-control" placeholder="" required />
-                                    <label for="donorName">Ad Soyad / Firma Adı</label>
+                                    <input id="donorName" name="DonorName" type="text" class="form-control" placeholder="" required />
+                                    <label for="donorName">Ad / Firma Adı</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-person"></span></div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="donorEmail" type="email" class="form-control" placeholder="" required />
+                                    <input id="donorSurname" name="DonorSurname" type="text" class="form-control" placeholder="" />
+                                    <label for="donorSurname">Soyad (Şahıslar için)</label>
+                                </div>
+                                <div class="input-group-text"><span class="bi bi-person"></span></div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="form-floating">
+                                    <input id="donorEmail" name="Email" type="email" class="form-control" placeholder="" required />
                                     <label for="donorEmail">E-posta</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-envelope"></span></div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="form-floating">
-                                    <input id="donorPassword" type="password" class="form-control" placeholder="" required />
+                                    <input id="donorPassword" name="PasswordHash" type="password" class="form-control" placeholder="" required />
                                     <label for="donorPassword">Şifre</label>
                                 </div>
                                 <div class="input-group-text"><span class="bi bi-lock-fill"></span></div>

@@ -7,8 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ScholarBridgeContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("baglan")));
 
-
-
+// We are going to use cookies for authentication.
+builder.Services.AddAuthentication("CookieAuth")
+    .AddCookie("CookieAuth", options =>
+    {
+        options.Cookie.Name = "ScholarBridgeAuth"; //  the cookie name that will be stored in the browser
+        options.LoginPath = "/Account/Login";      // if a user tries to access a page that requires authorization without being logged in, they will be redirected here
+    });                                            
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,7 +29,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication();  // first verify that the user is logged in (Authentication)                       
+app.UseAuthorization();  // then check if the user has the required authorization (Authorization) 
+                           
 
 app.MapControllerRoute(
     name: "default",

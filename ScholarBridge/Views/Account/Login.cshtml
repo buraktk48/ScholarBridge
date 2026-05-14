@@ -66,10 +66,26 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Oturum açmak için giriş yapın</p>
 
+                @* Başarı Mesajı (Kayıt sonrası) *@
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success text-center py-2 mb-3" style="font-size: 0.9rem;">
+                        <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                @* Hata Mesajı (Yanlış giriş sonrası) *@
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger text-center py-2 mb-3" style="font-size: 0.9rem;">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> @ViewBag.Error
+                    </div>
+                }
+
                 <form action="/Account/Login" method="post">
                     <div class="input-group mb-1">
                         <div class="form-floating">
-                            <input id="loginEmail" type="email" class="form-control" value="" placeholder="" />
+                            <input id="loginEmail" name="Email" type="email" class="form-control" value="" placeholder="" required />
                             <label for="loginEmail">E-posta</label>
                         </div>
                         <div class="input-group-text">
@@ -78,7 +94,7 @@
                     </div>
                     <div class="input-group mb-1">
                         <div class="form-floating">
-                            <input id="loginPassword" type="password" class="form-control" placeholder="" />
+                            <input id="loginPassword" name="PasswordHash" type="password" class="form-control" placeholder="" required />
                             <label for="loginPassword">Şifre</label>
                         </div>
                         <div class="input-group-text">

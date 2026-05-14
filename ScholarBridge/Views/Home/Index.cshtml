@@ -1,8 +1,60 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    Layout = "_PublicLayout"; // Vitrin sayfası için sade layout kullanıyoruz
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-4">Eğitime Uzanan Köprü: ScholarBridge</h1>
+        <p class="lead mb-5">Öğrenciler ile destek olmak isteyen vakıf ve bağışçıları güvenle buluşturan dijital platform.</p>
+        <div>
+            <a href="/Account/Register" class="btn btn-light btn-lg px-4 me-3 fw-bold text-primary">Hemen Katıl</a>
+            <a href="/Account/Login" class="btn btn-outline-light btn-lg px-4 fw-bold">Giriş Yap</a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="nedir" class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5 mt-4">
+            <div class="col-12">
+                <h2 class="fw-bold">Neden ScholarBridge?</h2>
+                <p class="text-muted">Güvenilir, şeffaf ve kolay kullanımlı altyapı.</p>
+            </div>
+        </div>
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="feature-icon"><i class="bi bi-mortarboard"></i></div>
+                    <h4 class="fw-bold">Öğrenciler İçin</h4>
+                    <p class="text-muted">Tek bir profil ile yüzlerce bursa başvuru yapın, evrak karmaşasından kurtulun.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="feature-icon"><i class="bi bi-building"></i></div>
+                    <h4 class="fw-bold">Vakıflar İçin</h4>
+                    <p class="text-muted">Burs ilanlarınızı kolayca yönetin, uygun adayları filtreleyin ve süreci otomatikleştirin.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="feature-icon"><i class="bi bi-heart"></i></div>
+                    <h4 class="fw-bold">Bağışçılar İçin</h4>
+                    <p class="text-muted">Eğitime doğrudan destek olun, bağışlarınızın doğru öğrencilere ulaştığından emin olun.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h3 class="fw-bold mb-3">Siz de Bu Ekosistemin Bir Parçası Olun</h3>
+        <p class="mb-4">Eğitimde fırsat eşitliği yaratmak için bugün bir adım atın.</p>
+        <a href="/Account/Register" class="btn btn-light btn-lg text-primary fw-bold">Ücretsiz Kayıt Ol</a>
+    </div>
+</section>

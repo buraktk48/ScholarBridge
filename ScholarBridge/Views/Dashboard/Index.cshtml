@@ -1,0 +1,101 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Hoş Geldiniz!</h3>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a href="#">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+        <div class="row">
+
+            @* VAKIF (ORGANIZATION) İÇİN GÖSTERİLECEK KARTLAR *@
+            @if (User.IsInRole("Organization"))
+            {
+                <div class="col-lg-4 col-12">
+                    <div class="small-box text-bg-primary">
+                        <div class="inner">
+                            <h3>0</h3>
+                            <p>Yayındaki Burs İlanlarım</p>
+                        </div>
+                        <div class="small-box-icon">
+                            <i class="bi bi-megaphone-fill"></i>
+                        </div>
+                        <a href="/Organization/Index" class="small-box-footer">İlanlarımı Gör <i class="bi bi-arrow-right-circle-fill"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-12">
+                    <div class="small-box text-bg-warning">
+                        <div class="inner">
+                            <h3>0</h3>
+                            <p>Bekleyen Öğrenci Başvuruları</p>
+                        </div>
+                        <div class="small-box-icon">
+                            <i class="bi bi-file-earmark-person-fill"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Başvuruları İncele <i class="bi bi-arrow-right-circle-fill"></i></a>
+                    </div>
+                </div>
+            }
+
+            @* ÖĞRENCİ İÇİN GÖSTERİLECEK KARTLAR *@
+            @if (User.IsInRole("Student"))
+            {
+                <div class="col-lg-4 col-12">
+                    <div class="small-box text-bg-info">
+                        <div class="inner">
+                            <h3>0</h3>
+                            <p>Sistemdeki Aktif İlanlar</p>
+                        </div>
+                        <div class="small-box-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Burs Ara <i class="bi bi-arrow-right-circle-fill"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-12">
+                    <div class="small-box text-bg-warning">
+                        <div class="inner">
+                            <h3>0</h3>
+                            <p>Bekleyen Başvurularım</p>
+                        </div>
+                        <div class="small-box-icon">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Başvurularımı Gör <i class="bi bi-arrow-right-circle-fill"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-12">
+                    <div class="small-box text-bg-success">
+                        <div class="inner">
+                            <h3>0</h3>
+                            <p>Onaylanan Burslarım</p>
+                        </div>
+                        <div class="small-box-icon">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">Detaylar <i class="bi bi-arrow-right-circle-fill"></i></a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

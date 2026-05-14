@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -76,7 +76,7 @@ public partial class ScholarBridgeContext : DbContext
         {
             entity.HasKey(e => e.UserId);
 
-            entity.Property(e => e.UserId).ValueGeneratedOnAdd();
+            entity.Property(e => e.UserId).ValueGeneratedNever();
             entity.Property(e => e.Bio).HasMaxLength(50);
             entity.Property(e => e.Occupation).HasMaxLength(50);
 
@@ -90,7 +90,7 @@ public partial class ScholarBridgeContext : DbContext
         {
             entity.HasKey(e => e.UserId);
 
-            entity.Property(e => e.UserId).ValueGeneratedOnAdd();
+            entity.Property(e => e.UserId).ValueGeneratedNever();
             entity.Property(e => e.OrgName).HasMaxLength(90);
             entity.Property(e => e.TaxNumber).HasMaxLength(20);
 
@@ -119,7 +119,7 @@ public partial class ScholarBridgeContext : DbContext
         {
             entity.HasKey(e => e.UserId);
 
-            entity.Property(e => e.UserId).ValueGeneratedOnAdd();
+            entity.Property(e => e.UserId).ValueGeneratedNever();
             entity.Property(e => e.Department).HasMaxLength(60);
             entity.Property(e => e.DormitoryPath).HasMaxLength(80);
             entity.Property(e => e.FamilyIncome).HasColumnType("decimal(18, 0)");
