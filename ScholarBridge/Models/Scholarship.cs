@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace ScholarBridge.Models;
@@ -20,6 +20,8 @@ public partial class Scholarship
     public string? RequirementSummary { get; set; }
 
     public bool? IsExpired { get; set; }
+
+    public bool? RequiresDocument { get; set; }
 
     public int? DurationInMonths { get; set; }
 

@@ -1,0 +1,64 @@
+@{
+    ViewData["Title"] = "Burs Başvurusu Onayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model ScholarBridge.Models.Scholarship
+
+<div class="container-fluid mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-info border-top border-3">
+                <div class="card-header bg-white">
+                    <h3 class="mb-0 text-info"><i class="bi bi-shield-check me-2"></i> Başvuru Onayı</h3>
+                </div>
+                <div class="card-body p-4">
+                    
+                    <div class="alert alert-light border mb-4">
+                        <h4 class="alert-heading text-primary">@Model.Title</h4>
+                        <hr>
+                        <p class="mb-0"><strong>Aylık Destek:</strong> @Model.AmountPerStudent ₺</p>
+                        <p class="mb-0"><strong>Süre:</strong> @Model.DurationInMonths Ay</p>
+                    </div>
+
+                    <h5 class="text-secondary border-bottom pb-2 mb-3">Başvuru Şartları</h5>
+                    <p class="text-muted">
+                        @Model.RequirementSummary
+                    </p>
+
+                    <div class="alert alert-warning mt-4">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> 
+                        Yukarıdaki şartları okuduğunuzu ve profil bilgilerinizin doğruluğunu kabul ediyor musunuz? Yanlış beyan edilen başvurular vakıflar tarafından reddedilecektir.
+                    </div>
+
+                    <form asp-action="Application" method="post" enctype="multipart/form-data" class="mt-4">
+                        <!-- C# tarafının hangi bursa onay verdiğimizi bilmesi için gizli ID -->
+                        <input type="hidden" name="ScholarshipFkId" value="@Model.ScholarshipId" />
+                        
+                        @if (Model.RequiresDocument == true)
+                        {
+                            <div class="alert alert-secondary text-start mb-4 border-warning">
+                                <label for="ExtraDocuments" class="form-label fw-bold text-dark">
+                                    <i class="bi bi-file-earmark-arrow-up me-1"></i> Ek Belgeleri Yükle (Zorunlu)
+                                </label>
+                                <!-- 'multiple' eklendi, name 'ExtraDocuments' olarak çoğullaştırıldı -->
+                                <input type="file" class="form-control border-warning" id="ExtraDocuments" name="ExtraDocuments" accept=".pdf,.doc,.docx" multiple required />
+                                <div class="form-text text-danger mt-2">
+                                    <i class="bi bi-info-circle-fill"></i> Vakıf bu burs için özel belgeler (Niyet Mektubu, Transkript vb.) yüklemenizi zorunlu kılmıştır. 
+                                    <b>Birden fazla dosya seçmek için CTRL (veya Shift) tuşuna basılı tutarak seçim yapabilirsiniz.</b> (Sadece PDF veya DOCX).
+                                </div>
+                            </div>
+                        }
+
+                        <div class="text-end">
+                            <a href="/Student/Scholarships" class="btn btn-outline-secondary me-2">İptal Et</a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check2-all me-1"></i> Şartları Kabul Ediyorum ve Başvuruyorum
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

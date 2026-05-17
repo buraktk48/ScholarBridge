@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScholarBridge.Models;
 
@@ -11,9 +12,11 @@ using ScholarBridge.Models;
 namespace ScholarBridge.Migrations
 {
     [DbContext(typeof(ScholarBridgeContext))]
-    partial class ScholarBridgeContextModelSnapshot : ModelSnapshot
+    [Migration("20260517122223_ScholarshipEdit")]
+    partial class ScholarshipEdit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

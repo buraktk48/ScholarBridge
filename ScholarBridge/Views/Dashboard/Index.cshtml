@@ -29,20 +29,20 @@
                 <div class="col-lg-4 col-12">
                     <div class="small-box text-bg-primary">
                         <div class="inner">
-                            <h3>0</h3>
+                            <h3>@ViewBag.ScholarshipCount</h3>
                             <p>Yayındaki Burs İlanlarım</p>
                         </div>
                         <div class="small-box-icon">
                             <i class="bi bi-megaphone-fill"></i>
                         </div>
-                        <a href="/Organization/Index" class="small-box-footer">İlanlarımı Gör <i class="bi bi-arrow-right-circle-fill"></i></a>
+                        <a href="/Organization/ScholarshipList" class="small-box-footer">İlanlarımı Gör <i class="bi bi-arrow-right-circle-fill"></i></a>
                     </div>
                 </div>
 
                 <div class="col-lg-4 col-12">
                     <div class="small-box text-bg-warning">
                         <div class="inner">
-                            <h3>0</h3>
+                            <h3>@ViewBag.ApplicationCount</h3>
                             <p>Bekleyen Öğrenci Başvuruları</p>
                         </div>
                         <div class="small-box-icon">
@@ -65,7 +65,7 @@
                         <div class="small-box-icon">
                             <i class="bi bi-search"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Burs Ara <i class="bi bi-arrow-right-circle-fill"></i></a>
+                        <a href="/Student/Scholarships" class="small-box-footer">Burs Ara <i class="bi bi-arrow-right-circle-fill"></i></a>
                     </div>
                 </div>
 

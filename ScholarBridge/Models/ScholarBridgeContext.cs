@@ -29,6 +29,8 @@ public partial class ScholarBridgeContext : DbContext
 
     public virtual DbSet<StudentDetail> StudentDetails { get; set; }
 
+    public virtual DbSet<StudentFile> StudentFiles { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserRole> UserRoles { get; set; }

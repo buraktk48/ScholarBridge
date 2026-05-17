@@ -19,8 +19,9 @@ namespace ScholarBridge.Controllers
         {
             return View();
         }
-
+             
         [HttpPost]
+        // async Task because we use await HttpContext.SignInAsync
         public async Task<IActionResult> Login(User user)
         {
             var existingUser = context.Users.FirstOrDefault(u => u.Email == user.Email && u.PasswordHash == user.PasswordHash);
@@ -58,6 +59,7 @@ namespace ScholarBridge.Controllers
             }
             else
             {
+                // ViewBag because we are already on the login page 
                 ViewBag.Error = "E-posta veya şifre hatalı!";
                 return View();
             }
@@ -95,6 +97,7 @@ namespace ScholarBridge.Controllers
             
             context.UserRoles.Add(ur);
             context.SaveChanges();
+            //TempData because we are redirecting to the login page 
             TempData["SuccessMessage"] = "Öğrenci kaydınız başarıyla tamamlandı!";
             return RedirectToAction("Login");
         }

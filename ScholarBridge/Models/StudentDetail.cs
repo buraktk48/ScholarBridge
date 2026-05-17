@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace ScholarBridge.Models;
@@ -28,6 +28,8 @@ public partial class StudentDetail
     public string? DormitoryPath { get; set; }
 
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
+
+    public virtual ICollection<StudentFile> StudentFiles { get; set; } = new List<StudentFile>();
 
     public virtual User User { get; set; } = null!;
 }

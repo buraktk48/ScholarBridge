@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScholarBridge.Models;
 
@@ -11,9 +12,11 @@ using ScholarBridge.Models;
 namespace ScholarBridge.Migrations
 {
     [DbContext(typeof(ScholarBridgeContext))]
-    partial class ScholarBridgeContextModelSnapshot : ModelSnapshot
+    [Migration("20260515133548_StudentFileTable")]
+    partial class StudentFileTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,9 +187,6 @@ namespace ScholarBridge.Migrations
 
                     b.Property<string>("RequirementSummary")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("RequiresDocument")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .HasMaxLength(200)

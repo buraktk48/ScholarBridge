@@ -1,0 +1,93 @@
+@model IEnumerable<ScholarBridge.Models.Scholarship>
+
+@{
+    ViewData["Title"] = "Burs İlanlarım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid mt-4">
+    <!-- Başarı mesajı varsa göster -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0"><i class="bi bi-list-task me-2"></i> Yayınladığım Burs İlanları</h3>
+            <a href="/Organization/Create" class="btn btn-sm btn-light text-primary fw-bold">
+                <i class="bi bi-plus-circle me-1"></i> Yeni İlan Ekle
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>İlan Başlığı</th>
+                            <th>Miktar (Aylık)</th>
+                            <th>Kontenjan</th>
+                            <th>Son Başvuru</th>
+                            <th>Süre</th>
+                            <th>Durum</th>
+                            <th class="text-center">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="fw-bold text-primary">@item.Title</td>
+                                    <td><span class="text-success fw-bold">@item.AmountPerStudent ₺</span></td>
+                                    <td><span class="badge bg-secondary">@item.Quota Kişi</span></td>
+                                    <td>
+                                        @if (item.Deadline.HasValue)
+                                        {
+                                            @item.Deadline.Value.ToString("dd.MM.yyyy")
+                                        }
+                                    </td>
+                                    <td>@item.DurationInMonths Ay</td>
+                                    <td>
+                                        @* Tarih bugünden küçükse veya IsExpired true ise Süresi Doldu yaz *@
+                                        @if (item.IsExpired == true || (item.Deadline.HasValue && item.Deadline.Value < DateOnly.FromDateTime(DateTime.Now)))
+                                        {
+                                            <span class="badge bg-danger">Süresi Doldu</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">Aktif</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-action="EditScholarship" asp-route-id="@item.ScholarshipId" class="btn btn-sm btn-outline-primary" title="Düzenle"><i class="bi bi-pencil-square"></i></a>
+                                        <form asp-action="DeleteScholarship" asp-route-id="@item.ScholarshipId" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Sil" onclick="return confirm('Bu bursu kalıcı olarak silmek istediğinize emin misiniz?');">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center py-5 text-muted">
+                                    <i class="bi bi-inbox fs-1 d-block mb-3"></i>
+                                    <h5>Henüz bir burs ilanı yayınlamadınız.</h5>
+                                    <p>Öğrencilere destek olmak için hemen yeni bir ilan oluşturabilirsiniz.</p>
+                                    <a href="/Organization/Create" class="btn btn-primary mt-2">İlan Oluştur</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

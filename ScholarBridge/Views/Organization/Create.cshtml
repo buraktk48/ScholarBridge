@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="Title" class="form-label">İlan Başlığı</label>
-                            <input type="text" class="form-control" id="Title" name="Title" placeholder="Örn: 2024-2025 Eğitim Dönemi Üstün Başarı Bursu" required>
+                            <input type="text" class="form-control" id="Title" name="Title" placeholder="Örn: 2025-2026 Eğitim Dönemi Üstün Başarı Bursu" required>
                         </div>
                         
                         <div class="row">
@@ -56,11 +56,19 @@
                             <label for="RequirementSummary" class="form-label">Başvuru Şartları & Açıklama</label>
                             <textarea class="form-control" id="RequirementSummary" name="RequirementSummary" rows="4" placeholder="Bursun şartlarını, kimlerin başvurabileceğini ve diğer detayları buraya yazınız..."></textarea>
                         </div>
+                        
+                        <div class="mb-4 form-check form-switch p-3 bg-light rounded border border-warning">
+                            <input class="form-check-input fs-4 ms-0 mt-2 me-3" type="checkbox" role="switch" id="RequiresDocument" name="RequiresDocument" value="true">
+                            <label class="form-check-label pt-1" for="RequiresDocument">
+                                <strong class="text-dark">Bu Burs İçin Öğrenciden Ek Belge Talep Ediyorum</strong> <br>
+                                <small class="text-muted">Eğer işaretlerseniz, öğrenciler başvuru sırasında transkript, niyet mektubu gibi özel bir belge yüklemek <b>zorunda</b> kalacaktır.</small>
+                            </label>
+                        </div>
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer text-end">
-                        <a href="/Organization/Index" class="btn btn-outline-secondary me-2">İptal</a>
+                        <a href="/Dashboard/Index" class="btn btn-outline-secondary me-2">İptal</a>
                         <button type="submit" class="btn btn-primary"><i class="bi bi-send-fill me-1"></i> İlanı Yayınla</button>
                     </div>
                 </form>

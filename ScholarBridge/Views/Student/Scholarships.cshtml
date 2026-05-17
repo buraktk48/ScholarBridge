@@ -1,5 +1,103 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@model IEnumerable<ScholarBridge.Models.Scholarship>
+
 @{
+    ViewData["Title"] = "Burs İlanları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="container-fluid mt-4">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> <strong>Tebrikler!</strong> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h3 class="mb-0"><i class="bi bi-search me-2"></i> Mevcut Burs İlanları</h3>
+        </div>
+        <div class="card-body p-0">
+            
+            @if (Model != null && Model.Any())
+            {
+                <div class="row p-3 g-4">
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm h-100 hover-lift">
+                                <div class="card-body p-4">
+                                    
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <span class="badge bg-primary fs-14">@item.Title</span>
+                                        
+                                        @if (item.Deadline.HasValue && item.Deadline.Value < DateOnly.FromDateTime(DateTime.Now))
+                                        {
+                                            <span class="badge bg-danger">Süresi Doldu</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">Aktif</span>
+                                        }
+                                    </div>
+
+                                    <h4 class="text-primary mb-3">@item.Title</h4>
+
+                                    <ul class="list-unstyled mb-3 text-muted small-text">
+                                        <li class="mb-2"><i class="bi bi-currency-dollar me-2 text-success"></i> Miktar: <span class="text-success fw-bold">@item.AmountPerStudent ₺/Ay</span></li>
+                                        <li class="mb-2"><i class="bi bi-people me-2"></i> Kontenjan: @item.Quota Kişi</li>
+                                        <li class="mb-2"><i class="bi bi-calendar me-2"></i> Süre: @item.DurationInMonths Ay</li>
+                                        <li><i class="bi bi-clock-history me-2"></i> Son Başvuru: @(item.Deadline.HasValue ? item.Deadline.Value.ToString("dd.MM.yyyy") : "Belirtilmemiş")</li>
+                                    </ul>
+
+                                    <div class="mb-3 p-3 bg-light rounded">
+                                        <p class="small text-muted mb-1">@item.RequirementSummary</p>
+                                    </div>
+                                    
+                                    @if (ViewBag.AppliedScholarshipIds != null && ((List<int?>)ViewBag.AppliedScholarshipIds).Contains(item.ScholarshipId))
+                                    {
+                                        <button type="button" class="btn btn-primary w-100 shadow-sm" disabled>
+                                            <i class="bi bi-check-circle-fill me-1"></i> Başvuru Yapıldı
+                                        </button>
+                                    }
+                                    else if (item.IsExpired == true || (item.Deadline.HasValue && item.Deadline.Value < DateOnly.FromDateTime(DateTime.Now)))
+                                    {
+                                        <button type="button" class="btn btn-secondary w-100" disabled>
+                                            <i class="bi bi-x-circle me-1"></i> Başvuruya Kapalı
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Student/Application/@item.ScholarshipId" class="btn btn-success w-100">
+                                            <i class="bi bi-arrow-right-circle me-1"></i> İncele ve Başvur
+                                        </a>
+                                    }
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-ui-checks-grid fs-1 d-block mb-3"></i>
+                    <h5>Sistemde aktif ilan bulunamadı.</h5>
+                    <p>Kurumların burs ilanlarını takipte kalın.</p>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1)!important;
+    }
+</style>
