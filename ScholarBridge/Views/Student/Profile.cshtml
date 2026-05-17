@@ -1,0 +1,128 @@
+@model ScholarBridge.Models.StudentDetail
+
+@{
+    ViewData["Title"] = "Profil Ayarları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid mt-4">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> <strong>Harika!</strong> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <form asp-action="Profile" method="post" enctype="multipart/form-data">
+        <div class="row justify-content-center">
+            
+            <!-- Kişisel Bilgiler ve Belgeler -->
+            <div class="col-md-10">
+                <div class="alert alert-info shadow-sm border-0 mb-4">
+                    <i class="bi bi-shield-lock me-2"></i> <strong>Bilgilendirme:</strong> Buraya yüklediğiniz belgeler ve kişisel bilgileriniz sadece başvuru yaptığınız vakıflar tarafından görüntülenebilir. Yalan beyanlar başvurunuzun doğrudan reddedilmesine sebep olur.
+                </div>
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title m-0"><i class="bi bi-person-lines-fill me-2"></i> Temel Bilgiler</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="StudentName" class="form-label fw-bold">Adınız</label>
+                                <input asp-for="StudentName" class="form-control" placeholder="Örn: Ali" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="StudentSurname" class="form-label fw-bold">Soyadınız</label>
+                                <input asp-for="StudentSurname" class="form-control" placeholder="Örn: Yılmaz" />
+                            </div>
+
+                            <div class="col-md-12 mt-4">
+                                <h5 class="border-bottom pb-2 text-primary"><i class="bi bi-mortarboard-fill me-2"></i> Eğitim Bilgileri</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="UniversityName" class="form-label fw-bold">Üniversite</label>
+                                <input asp-for="UniversityName" class="form-control" placeholder="Örn: İstanbul Üniversitesi" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Department" class="form-label fw-bold">Bölüm</label>
+                                <input asp-for="Department" class="form-control" placeholder="Örn: Bilgisayar Mühendisliği" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Grade" class="form-label fw-bold">Sınıf</label>
+                                <select asp-for="Grade" class="form-select">
+                                    <option value="">Seçiniz...</option>
+                                    <option value="0">Hazırlık</option>
+                                    <option value="1">1. Sınıf</option>
+                                    <option value="2">2. Sınıf</option>
+                                    <option value="3">3. Sınıf</option>
+                                    <option value="4">4. Sınıf</option>
+                                    <option value="5">Yüksek Lisans / Doktora</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Gpa" class="form-label fw-bold">Genel Not Ortalaması (GPA)</label>
+                                <input asp-for="Gpa" class="form-control" type="number" step="0.01" min="0" max="4" placeholder="Örn: 3.25" />
+                            </div>
+
+                            <div class="col-md-12 mt-4">
+                                <h5 class="border-bottom pb-2 text-primary"><i class="bi bi-wallet2 me-2"></i> Finansal Durum</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="FamilyIncome" class="form-label fw-bold">Aylık Hane Geliri (TL)</label>
+                                <input asp-for="FamilyIncome" class="form-control" type="number" placeholder="Örn: 25000" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESMİ BELGELER BÖLÜMÜ -->
+                <div class="card shadow-sm border-0 mt-4 border-top border-warning border-3">
+                    <div class="card-header bg-light">
+                        <h3 class="card-title text-warning text-dark fw-bold m-0"><i class="bi bi-folder-fill me-2"></i> Resmi Belgeler (PDF, DOCX)</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            <!-- Transkript -->
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">1. Transkript Belgesi</label>
+                                @if (Model != null && !string.IsNullOrEmpty(Model.TranscriptPath))
+                                {
+                                    <div class="mb-2"><a href="@Model.TranscriptPath" target="_blank" class="badge bg-success text-decoration-none"><i class="bi bi-check-circle"></i> Yüklendi (Görüntüle)</a></div>
+                                }
+                                <input type="file" class="form-control" name="TranscriptFile" accept=".pdf,.doc,.docx" />
+                            </div>
+
+                            <!-- Öğrenci Belgesi -->
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">2. Öğrenci Belgesi (E-Devlet Onaylı)</label>
+                                @if (Model != null && !string.IsNullOrEmpty(Model.StudentCertificatePath))
+                                {
+                                    <div class="mb-2"><a href="@Model.StudentCertificatePath" target="_blank" class="badge bg-success text-decoration-none"><i class="bi bi-check-circle"></i> Yüklendi (Görüntüle)</a></div>
+                                }
+                                <input type="file" class="form-control" name="StudentCertificateFile" accept=".pdf,.doc,.docx" />
+                            </div>
+
+                            <!-- Barınma Belgesi -->
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">3. Barınma / İkametgah Belgesi (Yurt kayıt, İkametgah veya Kira Sözleşmesi)</label>
+                                @if (Model != null && !string.IsNullOrEmpty(Model.DormitoryPath))
+                                {
+                                    <div class="mb-2"><a href="@Model.DormitoryPath" target="_blank" class="badge bg-success text-decoration-none"><i class="bi bi-check-circle"></i> Yüklendi (Görüntüle)</a></div>
+                                }
+                                <input type="file" class="form-control" name="DormitoryFile" accept=".pdf,.doc,.docx" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light text-end p-3">
+                        <button type="submit" class="btn btn-primary btn-lg fw-bold px-5 shadow-sm">
+                            <i class="bi bi-save me-2"></i> Değişiklikleri Kaydet
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,64 @@
+@model ScholarBridge.Models.OrganizationDetail
+
+@{
+    ViewData["Title"] = "Vakıf Profil Ayarları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid mt-4">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> <strong>Harika!</strong> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <form asp-action="Profile" method="post">
+        <div class="row justify-content-center">
+            
+            <!-- Kurumsal Bilgiler -->
+            <div class="col-md-10">
+                <div class="card shadow-sm border-0 border-top border-primary border-3">
+                    <div class="card-header bg-light">
+                        <h3 class="card-title text-primary fw-bold m-0"><i class="bi bi-building-fill me-2"></i> Kurumsal Bilgiler</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            
+                            <div class="col-md-6">
+                                <label asp-for="OrgName" class="form-label fw-bold">Kurum / Vakıf Adı <span class="text-danger">*</span></label>
+                                <input asp-for="OrgName" class="form-control form-control-lg" placeholder="Örn: Gelecek İçin Eğitim Vakfı" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="TaxNumber" class="form-label fw-bold">Vergi Numarası <span class="text-danger">*</span></label>
+                                <input asp-for="TaxNumber" class="form-control form-control-lg" placeholder="10 Haneli Vergi Numarası" required />
+                            </div>
+
+                            <div class="col-md-12">
+                                <label asp-for="Description" class="form-label fw-bold">Kurum Hakkında / Vizyon <span class="text-danger">*</span></label>
+                                <textarea asp-for="Description" class="form-control" rows="5" placeholder="Vakfınızın amacı, vizyonu ve öğrencilere sağladığı değerlerden kısaca bahsedin..." required></textarea>
+                            </div>
+                            
+                            <!-- Hesap Onay Durumu Göstergesi -->
+                            <div class="col-md-12 mt-2">
+                                <div class="alert @(Model != null && Model.IsVerified == true ? "alert-success" : "alert-warning") border-0 shadow-sm mb-0">
+                                    <i class="bi @(Model != null && Model.IsVerified == true ? "bi-check-circle-fill" : "bi-hourglass-split") me-2"></i>
+                                    <strong>Hesap Onay Durumu:</strong> 
+                                    @(Model != null && Model.IsVerified == true ? "Hesabınız sistem yöneticileri tarafından ONAYLANMIŞTIR." : "Hesabınız henüz onay aşamasındadır.")
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light text-end p-3">
+                        <button type="submit" class="btn btn-primary btn-lg fw-bold px-5 shadow-sm">
+                            <i class="bi bi-save me-2"></i> Bilgileri Güncelle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

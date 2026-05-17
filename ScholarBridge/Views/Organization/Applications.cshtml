@@ -1,0 +1,109 @@
+@model IEnumerable<ScholarBridge.Models.Application>
+
+@{
+    ViewData["Title"] = "Gelen Öğrenci Başvuruları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid mt-4">
+    <div class="card shadow-sm border-0 border-top border-primary border-3">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h3 class="card-title text-primary fw-bold m-0"><i class="bi bi-inboxes-fill me-2"></i> Başvurular Listesi</h3>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Öğrenci Adı</th>
+                            <th>Başvurulan İlan</th>
+                            <th>Ortalama (GPA)</th>
+                            <th>Tarih</th>
+                            <th>Belgeler</th>
+                            <th>Durum</th>
+                            <th class="text-end">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="fw-bold">@(item.UserFk?.StudentName) @(item.UserFk?.StudentSurname)</td>
+                                    <td><span class="badge bg-secondary">@(item.ScholarshipFk?.Title)</span></td>
+                                    <td><span class="badge bg-info text-dark">@item.UserFk?.Gpa / 4.00</span></td>
+                                    <td>@(item.AppliedAt?.ToString("dd MMM yyyy") ?? "-")</td>
+                                    <td>
+                                        <!-- Belgeleri Görüntüleme Dropdown -->
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-file-earmark-pdf-fill"></i> Belgeler
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @if (!string.IsNullOrEmpty(item.UserFk?.TranscriptPath))
+                                                {
+                                                    <li><a class="dropdown-item" href="@item.UserFk.TranscriptPath" target="_blank">Transkript</a></li>
+                                                }
+                                                @if (!string.IsNullOrEmpty(item.UserFk?.StudentCertificatePath))
+                                                {
+                                                    <li><a class="dropdown-item" href="@item.UserFk.StudentCertificatePath" target="_blank">Öğrenci Belgesi</a></li>
+                                                }
+                                                @if (!string.IsNullOrEmpty(item.UserFk?.DormitoryPath))
+                                                {
+                                                    <li><a class="dropdown-item" href="@item.UserFk.DormitoryPath" target="_blank">Yurt/Kira Belgesi</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (item.Status == "Bekliyor")
+                                        {
+                                            <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split"></i> Bekliyor</span>
+                                        }
+                                        else if (item.Status == "Onaylandı")
+                                        {
+                                            <span class="badge bg-success"><i class="bi bi-check-circle-fill"></i> Onaylandı</span>
+                                        }
+                                        else if (item.Status == "Reddedildi")
+                                        {
+                                            <span class="badge bg-danger"><i class="bi bi-x-circle-fill"></i> Reddedildi</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">
+                                        @if (item.Status == "Bekliyor")
+                                        {
+                                            <form asp-action="ApproveApplication" asp-route-id="@item.ApplicationId" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-success shadow-sm" title="Onayla">
+                                                    <i class="bi bi-check-lg"></i>
+                                                </button>
+                                            </form>
+                                            <form asp-action="RejectApplication" asp-route-id="@item.ApplicationId" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-danger shadow-sm ms-1" title="Reddet">
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic small">İşlem Yapıldı</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center text-muted p-4">
+                                    <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                    Henüz bekleyen bir başvuru bulunmamaktadır.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

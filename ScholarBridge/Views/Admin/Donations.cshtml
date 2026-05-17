@@ -1,0 +1,157 @@
+@model IEnumerable<ScholarBridge.Models.Donation>
+
+@{
+    ViewData["Title"] = "Finansal Akış ve Bağış Kayıtları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="app-content-header bg-dark py-3 mb-4 shadow-sm">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h3 class="mb-0 text-white fw-bold"><i class="bi bi-cash-coin me-2 text-success"></i>Finansal Akış & Bağış Raporu</h3>
+                <small class="text-white-50">Sistem üzerinden gerçekleşen tüm bağışların detaylı dökümü</small>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end mb-0">
+                    <li class="breadcrumb-item"><a href="/Admin/Index" class="text-white-50 text-decoration-none">Yönetim</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Finansal Kayıtlar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+        <!-- Toplam Özet Banner -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="card shadow-sm border-0 border-start border-success border-5 h-100 bg-white">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <h6 class="text-muted text-uppercase small fw-bold">Toplam Transfer Edilen Tutar</h6>
+                                <h2 class="fw-bold text-success mb-0">@Model.Sum(d => d.Amount ?? 0).ToString("C2")</h2>
+                            </div>
+                            <div class="bg-success bg-opacity-10 p-3 rounded-circle text-success fs-3">
+                                <i class="bi bi-currency-exchange"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="card shadow-sm border-0 border-start border-primary border-5 h-100 bg-white">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <h6 class="text-muted text-uppercase small fw-bold">Toplam Bağış İşlemi</h6>
+                                <h2 class="fw-bold text-primary mb-0">@Model.Count() Adet</h2>
+                            </div>
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-circle text-primary fs-3">
+                                <i class="bi bi-receipt-cutoff"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 col-12">
+                <div class="card shadow-sm border-0 border-start border-info border-5 h-100 bg-white">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <h6 class="text-muted text-uppercase small fw-bold">Bağışlanan Eşsiz İlan</h6>
+                                <h2 class="fw-bold text-info mb-0">@Model.Select(d => d.ScholarshipFkId).Distinct().Count() İlan</h2>
+                            </div>
+                            <div class="bg-info bg-opacity-10 p-3 rounded-circle text-info fs-3">
+                                <i class="bi bi-megaphone-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- İşlem Tablosu -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-dark text-white py-3">
+                <h5 class="card-title mb-0 fw-bold"><i class="bi bi-list-columns-reverse me-2 text-success"></i>Tüm Transfer Geçmişi</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0 align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="ps-3">İşlem ID / Referans</th>
+                                <th>Bağışçı Adı Soyadı</th>
+                                <th>Hedef Burs İlanı</th>
+                                <th>Bağış Tutarı</th>
+                                <th>Tarih & Saat</th>
+                                <th>İşlem Durumu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="font-monospace text-secondary ps-3 fw-bold">
+                                            @(string.IsNullOrEmpty(item.TransactionId) ? "TXN-AUTO-GEN" : item.TransactionId)
+                                        </td>
+                                        <td class="fw-bold">
+                                            @if (item.UserFk != null)
+                                            {
+                                                <span><i class="bi bi-person-circle me-1 text-primary"></i>@item.UserFk.DonorName @item.UserFk.DonorSurname</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted"><i class="bi bi-incognito me-1"></i>Anonim Bağışçı</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.ScholarshipFk != null)
+                                            {
+                                                <span class="badge bg-light text-dark border border-secondary bg-opacity-10 px-2 py-1">@item.ScholarshipFk.Title</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Bilinmeyen İlan</span>
+                                            }
+                                        </td>
+                                        <td class="text-success fw-bold fs-5">
+                                            @item.Amount?.ToString("C2")
+                                        </td>
+                                        <td>
+                                            @item.DonatedAt?.ToString("dd MMMM yyyy, HH:mm")
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill">
+                                                <i class="bi bi-check-circle-fill me-1"></i> Başarılı
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-5">
+                                        <div class="py-4">
+                                            <i class="bi bi-currency-exchange fs-1 d-block mb-3 text-secondary opacity-50"></i>
+                                            <h5>Kayıtlı Finansal Akış Bulunmuyor</h5>
+                                            <p class="text-muted">Sistemde henüz yapılmış herhangi bir bağış işlemi bulunmamaktadır.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

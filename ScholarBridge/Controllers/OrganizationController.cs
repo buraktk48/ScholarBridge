@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ScholarBridge.Models;
-
+using Microsoft.EntityFrameworkCore;
 namespace ScholarBridge.Controllers
 {
     [Authorize(Roles = "Organization")] // only organizations can access this controller
@@ -13,6 +13,87 @@ namespace ScholarBridge.Controllers
         {
             context = _context;
         }
+
+        [HttpGet]
+        public IActionResult Applications()
+        {
+            var userIdString = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            int.TryParse(userIdString, out int userId);
+
+            // Brings all applications for the organization's scholarships
+            var value = context.Applications
+                .Include(x => x.ScholarshipFk) // include scholarship name in the applications view
+                .Include(x => x.UserFk) // include student name in the applications view 
+                .Where(x => x.ScholarshipFk.UserFkId == userId)
+                .OrderByDescending(x => x.AppliedAt) // bring latest applications first
+                .ToList();
+
+            return View(value);
+        }
+
+        [HttpPost]
+        public IActionResult ApproveApplication(int id)
+        {
+            var application = context.Applications.FirstOrDefault(a => a.ApplicationId == id);
+            if(application != null)
+            {
+                application.Status = "Onaylandı";
+                context.SaveChanges();
+            }
+            return RedirectToAction("Applications");
+        }
+
+        [HttpPost]
+        public IActionResult RejectApplication(int id)
+        {
+            var application = context.Applications.FirstOrDefault(a => a.ApplicationId == id);
+            if(application != null)
+            {
+                application.Status = "Reddedildi";
+                context.SaveChanges();
+            }
+            return RedirectToAction("Applications");
+        }
+
+        
+
+        [HttpGet]  
+        public IActionResult Profile()
+        {
+            var userIdString = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            int.TryParse(userIdString, out int userId);
+
+            var value = context.OrganizationDetails.FirstOrDefault(x => x.UserId == userId);
+
+            return View(value);
+        }
+
+        [HttpPost] 
+        public IActionResult Profile(OrganizationDetail organization)
+        {
+            var userIdString = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            int.TryParse(userIdString, out int userId);
+
+            // existing organization 
+            var existingOrg = context.OrganizationDetails.FirstOrDefault(x => x.UserId == userId);
+
+            if (existingOrg != null)
+            {
+                // only updating the form data
+                existingOrg.OrgName = organization.OrgName;
+                existingOrg.TaxNumber = organization.TaxNumber;
+                existingOrg.Description = organization.Description;
+
+                // we don't need to write update, entity framework tracks it 
+                context.SaveChanges(); 
+                
+                TempData["SuccessMessage"] = "Profil bilgileri başarıyla güncellendi!";
+            }
+            
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        
 
         [HttpGet]
         

@@ -1,5 +1,79 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+@model IEnumerable<ScholarBridge.Models.Scholarship>
+
 @{
+    ViewData["Title"] = "Burslar ve Bağışlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="container-fluid mt-4">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm"
+             role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm"
+             role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    }
+
+    <h3 class="mb-4"><i class="bi bi-gift-fill me-2"></i> Açık Burslar</h3>
+
+    <div class="row g-4">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var s in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="card shadow-sm border-0 border-top border-primary border-3 h-100">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0 text-primary fw-bold">
+                                <i class="bi bi-megaphone-fill me-2"></i>@s.Title
+                            </h5>
+                            <span class="badge bg-info text-dark">@s.AmountPerStudent?.ToString("C0") / öğrenci</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2"><strong>Son Başvuru:</strong> @(s.Deadline?.ToString("dd MMM yyyy") ?? "Sınırsız")</p>
+                            <p class="mb-0"><strong>Kontenjan:</strong> @(s.Quota?.ToString() ?? "Sınırsız")</p>
+                        </div>
+                        <div class="card-footer bg-light text-end">
+                            <form asp-action="Donate" method="post" class="d-inline">
+                                <input type="hidden" name="scholarshipId" value="@s.ScholarshipId" />
+                                <div class="input-group input-group-sm w-auto d-inline-flex align-items-center">
+                                    <input type="number" name="amount" class="form-control form-control-sm"
+                                           placeholder="₺" min="1" step="0.01"
+                                           required style="max-width:80px;">
+                                    <button type="submit"
+                                            class="btn btn-success btn-sm shadow-sm ms-1"
+                                            title="Bağış Yap">
+                                        <i class="bi bi-hand-thumbs-up"></i> Bağış Yap
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center text-muted my-5 py-5">
+                <div class="card shadow-sm border-0 p-5 align-items-center justify-content-center bg-white rounded-3">
+                    <i class="bi bi-gift fs-1 d-block mb-3 text-success opacity-75"></i>
+                    <h4 class="fw-bold text-dark">Şu Anda Aktif Burs Bulunmuyor</h4>
+                    <p class="text-secondary max-width-500">Sistemde henüz bağış yapılabilecek aktif bir burs ilanı bulunmamaktadır. Lütfen daha sonra tekrar kontrol ediniz.</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

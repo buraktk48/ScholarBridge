@@ -1,5 +1,248 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
+    ViewData["Title"] = "Admin Kontrol Paneli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<div class="app-content-header bg-dark py-3 mb-4 shadow-sm">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h3 class="mb-0 text-white fw-bold"><i class="bi bi-shield-lock-fill me-2 text-danger"></i>Admin Kontrol Paneli</h3>
+                <small class="text-white-50">Sistem genel durumu, kullanıcılar ve finansal akış yönetimi</small>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end mb-0">
+                    <li class="breadcrumb-item"><a href="/Admin/Index" class="text-white-50 text-decoration-none">Yönetim</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Dashboard</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="app-content">
+    <div class="container-fluid">
+        <!-- İstatistik Kutuları -->
+        <div class="row g-4 mb-4">
+            <!-- Öğrenciler -->
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="small-box text-bg-info shadow-sm h-100">
+                    <div class="inner">
+                        <h3>@ViewBag.TotalStudents</h3>
+                        <p class="fw-semibold">Kayıtlı Öğrenciler</p>
+                    </div>
+                    <div class="small-box-icon">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-decoration-none">
+                        Detaylar <i class="bi bi-arrow-right-circle-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Kurumlar -->
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="small-box text-bg-warning shadow-sm h-100">
+                    <div class="inner text-dark">
+                        <h3>@ViewBag.TotalOrganizations</h3>
+                        <p class="fw-semibold text-dark">Kayıtlı Kurumlar (Vakıflar)</p>
+                    </div>
+                    <div class="small-box-icon text-dark-50">
+                        <i class="bi bi-building-fill"></i>
+                    </div>
+                    <a href="#" class="small-box-footer text-dark text-decoration-none">
+                        Detaylar <i class="bi bi-arrow-right-circle-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bağışçılar -->
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="small-box text-bg-success shadow-sm h-100">
+                    <div class="inner">
+                        <h3>@ViewBag.TotalDonors</h3>
+                        <p class="fw-semibold">Kayıtlı Bağışçılar</p>
+                    </div>
+                    <div class="small-box-icon">
+                        <i class="bi bi-heart-fill"></i>
+                    </div>
+                    <a href="/Admin/Donations" class="small-box-footer text-decoration-none">
+                        Detaylar <i class="bi bi-arrow-right-circle-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Finansal Akış -->
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="small-box text-bg-danger shadow-sm h-100">
+                    <div class="inner">
+                        <h3>@ViewBag.TotalDonatedAmount.ToString("C0")</h3>
+                        <p class="fw-semibold">Toplam Finansal Akış</p>
+                    </div>
+                    <div class="small-box-icon">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                    <a href="/Admin/Donations" class="small-box-footer text-decoration-none">
+                        Detaylar <i class="bi bi-arrow-right-circle-fill"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ek İstatistik Satırı -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-12">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-light border-0 py-3">
+                        <h5 class="card-title mb-0 text-dark fw-bold"><i class="bi bi-megaphone-fill text-primary me-2"></i>Burs Durum Özeti</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 border-end">
+                                <h2 class="fw-bold text-primary mb-1">@ViewBag.TotalScholarships</h2>
+                                <span class="text-muted small text-uppercase">Toplam İlan</span>
+                            </div>
+                            <div class="col-6">
+                                <h2 class="fw-bold text-success mb-1">@ViewBag.ActiveScholarships</h2>
+                                <span class="text-muted small text-uppercase">Aktif İlanlar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-light border-0 py-3">
+                        <h5 class="card-title mb-0 text-dark fw-bold"><i class="bi bi-wallet2 text-success me-2"></i>Bağış İstatistikleri</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 border-end">
+                                <h2 class="fw-bold text-success mb-1">@ViewBag.TotalDonationCount</h2>
+                                <span class="text-muted small text-uppercase">Toplam Bağış Adedi</span>
+                            </div>
+                            <div class="col-6">
+                                <h2 class="fw-bold text-danger mb-1">
+                                    @(ViewBag.TotalDonationCount > 0 ? (ViewBag.TotalDonatedAmount / ViewBag.TotalDonationCount).ToString("C0") : "₺0")
+                                </h2>
+                                <span class="text-muted small text-uppercase">Ortalama Bağış</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Son Bağışlar -->
+            <div class="col-lg-6 col-12">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-dark text-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0 fw-bold"><i class="bi bi-piggy-bank-fill text-success me-2"></i>Son Bağışlar</h5>
+                        <a href="/Admin/Donations" class="btn btn-sm btn-outline-light">Tümünü Gör</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped mb-0 align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Bağışçı</th>
+                                        <th>Burs</th>
+                                        <th>Miktar</th>
+                                        <th>Tarih</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.RecentDonations != null && ((IEnumerable<ScholarBridge.Models.Donation>)ViewBag.RecentDonations).Any())
+                                    {
+                                        foreach (var d in (IEnumerable<ScholarBridge.Models.Donation>)ViewBag.RecentDonations)
+                                        {
+                                            <tr>
+                                                <td class="fw-bold">
+                                                    @(d.UserFk != null ? $"{d.UserFk.DonorName} {d.UserFk.DonorSurname}" : "Anonim Bağışçı")
+                                                </td>
+                                                <td>@(d.ScholarshipFk?.Title ?? "Bilinmeyen Burs")</td>
+                                                <td class="text-success fw-bold">@d.Amount?.ToString("C0")</td>
+                                                <td>@d.DonatedAt?.ToString("dd MMM yyyy HH:mm")</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">
+                                                <i class="bi bi-cash fs-3 d-block mb-2 text-secondary"></i>
+                                                Henüz bağış yapılmamış.
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Son Başvurular -->
+            <div class="col-lg-6 col-12">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-dark text-white py-3">
+                        <h5 class="card-title mb-0 fw-bold"><i class="bi bi-file-earmark-person-fill text-warning me-2"></i>Son Öğrenci Başvuruları</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped mb-0 align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Öğrenci</th>
+                                        <th>Burs Başlığı</th>
+                                        <th>Tarih</th>
+                                        <th>Durum</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.RecentApplications != null && ((IEnumerable<ScholarBridge.Models.Application>)ViewBag.RecentApplications).Any())
+                                    {
+                                        foreach (var a in (IEnumerable<ScholarBridge.Models.Application>)ViewBag.RecentApplications)
+                                        {
+                                            <tr>
+                                                <td class="fw-bold">
+                                                    @(a.UserFk != null ? $"{a.UserFk.StudentName} {a.UserFk.StudentSurname}" : "Bilinmeyen Öğrenci")
+                                                </td>
+                                                <td>@(a.ScholarshipFk?.Title ?? "Bilinmeyen Burs")</td>
+                                                <td>@a.AppliedAt?.ToString("dd MMM yyyy")</td>
+                                                <td>
+                                                    @if (a.Status == "Bekliyor")
+                                                    {
+                                                        <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split me-1"></i>Bekliyor</span>
+                                                    }
+                                                    else if (a.Status == "Onaylandı")
+                                                    {
+                                                        <span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>Onaylandı</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-danger"><i class="bi bi-x-circle-fill me-1"></i>@a.Status</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">
+                                                <i class="bi bi-inbox fs-3 d-block mb-2 text-secondary"></i>
+                                                Henüz başvuru bulunmamaktadır.
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

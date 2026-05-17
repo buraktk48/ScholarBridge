@@ -19,6 +19,16 @@
     </div>
 </div>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="container-fluid mt-3">
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
 <div class="app-content">
     <div class="container-fluid">
         <div class="row">
@@ -48,10 +58,38 @@
                         <div class="small-box-icon">
                             <i class="bi bi-file-earmark-person-fill"></i>
                         </div>
-                        <a href="#" class="small-box-footer">Başvuruları İncele <i class="bi bi-arrow-right-circle-fill"></i></a>
+                        <a href="/Organization/Applications" class="small-box-footer">Başvuruları İncele <i class="bi bi-arrow-right-circle-fill"></i></a>
                     </div>
                 </div>
             }
+
+@if (User.IsInRole("Donor"))
+{
+    <div class="col-lg-4 col-12">
+        <div class="small-box text-bg-success">
+            <div class="inner">
+                <h3>@ViewBag.DonationCount</h3>
+                <p>Bağış Yapılabilecek Burslar</p>
+            </div>
+            <div class="small-box-icon">
+                <i class="bi bi-hand-thumbs-up"></i>
+            </div>
+            <a href="/Donor/Donate" class="small-box-footer">Bağış Yap <i class="bi bi-arrow-right-circle-fill"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-12">
+        <div class="small-box text-bg-primary">
+            <div class="inner">
+                <h3>@ViewBag.TotalDonated?.ToString("C0")</h3>
+                <p>Toplam Bağış Tutarı</p>
+            </div>
+            <div class="small-box-icon">
+                <i class="bi bi-cash-stack"></i>
+            </div>
+            <a href="/Donor/Donate" class="small-box-footer">Detaylar <i class="bi bi-arrow-right-circle-fill"></i></a>
+        </div>
+    </div>
+}
 
             @* ÖĞRENCİ İÇİN GÖSTERİLECEK KARTLAR *@
             @if (User.IsInRole("Student"))
@@ -59,7 +97,7 @@
                 <div class="col-lg-4 col-12">
                     <div class="small-box text-bg-info">
                         <div class="inner">
-                            <h3>0</h3>
+                            <h3>@ViewBag.ActiveScholarships</h3>
                             <p>Sistemdeki Aktif İlanlar</p>
                         </div>
                         <div class="small-box-icon">
@@ -69,32 +107,33 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-12">
-                    <div class="small-box text-bg-warning">
-                        <div class="inner">
-                            <h3>0</h3>
-                            <p>Bekleyen Başvurularım</p>
-                        </div>
-                        <div class="small-box-icon">
-                            <i class="bi bi-hourglass-split"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">Başvurularımı Gör <i class="bi bi-arrow-right-circle-fill"></i></a>
-                    </div>
-                </div>
+    <div class="col-lg-4 col-12">
+        <div class="small-box text-bg-warning">
+            <div class="inner">
+                <h3>@ViewBag.PendingApplications</h3>
+                <p>Bekleyen Başvurularım</p>
+            </div>
+            <div class="small-box-icon">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+            <a href="/Student/MyApplications" class="small-box-footer">Başvurularımı Gör <i class="bi bi-arrow-right-circle-fill"></i></a>
+        </div>
+    </div>
 
-                <div class="col-lg-4 col-12">
-                    <div class="small-box text-bg-success">
-                        <div class="inner">
-                            <h3>0</h3>
-                            <p>Onaylanan Burslarım</p>
-                        </div>
-                        <div class="small-box-icon">
-                            <i class="bi bi-check-circle-fill"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">Detaylar <i class="bi bi-arrow-right-circle-fill"></i></a>
-                    </div>
-                </div>
-            }
+    <div class="col-lg-4 col-12">
+        <div class="small-box text-bg-success">
+            <div class="inner">
+                <h3>@ViewBag.ApprovedApplications</h3>
+                <p>Onaylanan Burslarım</p>
+            </div>
+            <div class="small-box-icon">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <a href="#" class="small-box-footer">Detaylar <i class="bi bi-arrow-right-circle-fill"></i></a>
+        </div>
+    </div>
+}
+
 
         </div>
     </div>

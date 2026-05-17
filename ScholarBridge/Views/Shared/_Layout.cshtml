@@ -31,13 +31,13 @@
                     </li>
                     <!-- User Menu -->
                     <li class="nav-item dropdown user-menu">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="~/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User" />
+                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle fs-4 me-2"></i>
                             <span class="d-none d-md-inline">Profilim</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <li class="user-header text-bg-primary">
-                                <img src="~/assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="User" />
+                            <li class="user-header text-bg-primary d-flex flex-column justify-content-center">
+                                <i class="bi bi-person-circle display-4 mb-2"></i>
                                 <p>
                                     @User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value
                                     <small>Rol: @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</small>
@@ -64,10 +64,20 @@
                 <nav class="mt-2">
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" data-accordion="false" id="navigation">
                         <li class="nav-item">
-                            <a href="/Dashboard/Index" class="nav-link">
-                                <i class="nav-icon bi bi-speedometer"></i>
-                                <p>Dashboard</p>
-                            </a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="/Admin/Index" class="nav-link">
+                                    <i class="nav-icon bi bi-shield-lock-fill text-danger"></i>
+                                    <p>Admin Paneli</p>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="/Dashboard/Index" class="nav-link">
+                                    <i class="nav-icon bi bi-speedometer"></i>
+                                    <p>Dashboard</p>
+                                </a>
+                            }
                         </li>
 
                         @if (User.IsInRole("Organization"))
@@ -82,6 +92,12 @@
                                 <a href="/Organization/ScholarshipList" class="nav-link">
                                     <i class="nav-icon bi bi-list-check"></i>
                                     <p>İlanlarım</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/Organization/Applications" class="nav-link">
+                                    <i class="nav-icon bi bi-people-fill text-success"></i>
+                                    <p>Gelen Başvurular</p>
                                 </a>
                             </li>
                         }
@@ -102,12 +118,42 @@
                             </li>
                         }
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-person-fill"></i>
-                                <p>Profil Ayarları</p>
-                            </a>
-                        </li>
+                        @if (User.IsInRole("Organization"))
+                        {
+                            <li class="nav-item">
+                                <a href="/Organization/Profile" class="nav-link">
+                                    <i class="nav-icon bi bi-building-fill text-info"></i>
+                                    <p>Kurum Profili</p>
+                                </a>
+                            </li>
+                        }
+                        else if (User.IsInRole("Donor"))
+                        {
+                            <li class="nav-item">
+                                <a href="/Donor/Donate" class="nav-link">
+                                    <i class="nav-icon bi bi-gift-fill text-success"></i>
+                                    <p>Bağış Yap</p>
+                                </a>
+                            </li>
+                        }
+                        else if (User.IsInRole("Student"))
+                        {
+                            <li class="nav-item">
+                                <a href="/Student/Profile" class="nav-link">
+                                    <i class="nav-icon bi bi-person-fill text-info"></i>
+                                    <p>Profil Ayarları</p>
+                                </a>
+                            </li>
+                        }
+                        else if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a href="/Admin/Donations" class="nav-link">
+                                    <i class="nav-icon bi bi-cash-coin text-success"></i>
+                                    <p>Finansal Akış (Bağışlar)</p>
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </nav>
             </div>
