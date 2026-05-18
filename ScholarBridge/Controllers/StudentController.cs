@@ -42,6 +42,13 @@ namespace ScholarBridge.Controllers
 
             // finding the existing record in the database
             var existingStudent = context.StudentDetails.FirstOrDefault(s => s.UserId == userId);
+            //Security control
+            
+            if (existingStudent == null)
+            {
+                existingStudent = new StudentDetail { UserId = userId };
+                context.StudentDetails.Add(existingStudent);
+            }
 
             // updating the existing record with the new data
             existingStudent.StudentName = updatedProfile.StudentName;

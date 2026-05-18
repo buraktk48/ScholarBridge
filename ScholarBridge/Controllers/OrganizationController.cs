@@ -7,6 +7,7 @@ namespace ScholarBridge.Controllers
     [Authorize(Roles = "Organization")] // only organizations can access this controller
     public class OrganizationController : Controller
     {
+        //for RAM optimization
         private readonly ScholarBridgeContext context;
 
         public OrganizationController(ScholarBridgeContext _context)
@@ -23,7 +24,8 @@ namespace ScholarBridge.Controllers
             // Brings all applications for the organization's scholarships
             var value = context.Applications
                 .Include(x => x.ScholarshipFk) // include scholarship name in the applications view
-                .Include(x => x.UserFk) // include student name in the applications view 
+                .Include(x => x.UserFk) // include student name in the applications view
+                    .ThenInclude(u => u.StudentFiles)
                 .Where(x => x.ScholarshipFk.UserFkId == userId)
                 .OrderByDescending(x => x.AppliedAt) // bring latest applications first
                 .ToList();
@@ -44,12 +46,13 @@ namespace ScholarBridge.Controllers
         }
 
         [HttpPost]
-        public IActionResult RejectApplication(int id)
+        public IActionResult RejectApplication(int id, string rejectionReason)
         {
             var application = context.Applications.FirstOrDefault(a => a.ApplicationId == id);
             if(application != null)
             {
                 application.Status = "Reddedildi";
+                application.RejectionReason = rejectionReason;
                 context.SaveChanges();
             }
             return RedirectToAction("Applications");
@@ -76,19 +79,22 @@ namespace ScholarBridge.Controllers
 
             // existing organization 
             var existingOrg = context.OrganizationDetails.FirstOrDefault(x => x.UserId == userId);
-
-            if (existingOrg != null)
+            //Security control
+            if (existingOrg == null)
             {
-                // only updating the form data
-                existingOrg.OrgName = organization.OrgName;
-                existingOrg.TaxNumber = organization.TaxNumber;
-                existingOrg.Description = organization.Description;
-
-                // we don't need to write update, entity framework tracks it 
-                context.SaveChanges(); 
-                
-                TempData["SuccessMessage"] = "Profil bilgileri başarıyla güncellendi!";
+                existingOrg = new OrganizationDetail { UserId = userId };
+                context.OrganizationDetails.Add(existingOrg);
             }
+
+            // only updating the form data
+            existingOrg.OrgName = organization.OrgName;
+            existingOrg.TaxNumber = organization.TaxNumber;
+            existingOrg.Description = organization.Description;
+
+            // we don't need to write update, entity framework tracks it 
+            context.SaveChanges(); 
+            
+            TempData["SuccessMessage"] = "Profil bilgileri başarıyla güncellendi!";
             
             return RedirectToAction("Index", "Dashboard");
         }

@@ -20,6 +20,7 @@
                                 <th>Burs Adı</th>
                                 <th>Başvuru Tarihi</th>
                                 <th>Durum</th>
+                                <th>Açıklama / Red Nedeni</th>
                                 <th>İşlemler</th>
                             </tr>
                         </thead>
@@ -41,6 +42,20 @@
                                         else
                                         {
                                             <span class="badge bg-danger"><i class="bi bi-x-circle-fill me-1"></i> Reddedildi</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.Status == "Reddedildi" && !string.IsNullOrEmpty(item.RejectionReason))
+                                        {
+                                            <span class="text-danger fw-semibold"><i class="bi bi-exclamation-triangle-fill me-1"></i> @item.RejectionReason</span>
+                                        }
+                                        else if (item.Status == "Onaylandı")
+                                        {
+                                            <span class="text-success fw-semibold"><i class="bi bi-hand-thumbs-up-fill me-1"></i> Tebrikler! Başvurunuz onaylandı.</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted"><i class="bi bi-hourglass-split me-1"></i> Değerlendirme aşamasında</span>
                                         }
                                     </td>
                                     <td>
