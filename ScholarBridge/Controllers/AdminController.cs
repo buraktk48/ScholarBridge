@@ -10,31 +10,31 @@ namespace ScholarBridge.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly ScholarBridgeContext _context;
+        private readonly ScholarBridgeContext context;
 
-        public AdminController(ScholarBridgeContext context)
+        public AdminController(ScholarBridgeContext _context)
         {
-            _context = context;
+            context = _context;
         }
 
         public IActionResult Index()
         {
             // Total Counts
-            ViewBag.TotalStudents = _context.StudentDetails.Count();
-            ViewBag.TotalOrganizations = _context.OrganizationDetails.Count();
-            ViewBag.TotalDonors = _context.DonorDetails.Count();
-            ViewBag.TotalUsers = _context.Users.Count();
+            ViewBag.TotalStudents = context.StudentDetails.Count();
+            ViewBag.TotalOrganizations = context.OrganizationDetails.Count();
+            ViewBag.TotalDonors = context.DonorDetails.Count();
+            ViewBag.TotalUsers = context.Users.Count();
 
             // Financial Stats
-            ViewBag.TotalDonationCount = _context.Donations.Count();
-            ViewBag.TotalDonatedAmount = _context.Donations.Sum(d => d.Amount) ?? 0;
+            ViewBag.TotalDonationCount = context.Donations.Count();
+            ViewBag.TotalDonatedAmount = context.Donations.Sum(d => d.Amount) ?? 0;
 
             // Scholarships
-            ViewBag.TotalScholarships = _context.Scholarships.Count();
-            ViewBag.ActiveScholarships = _context.Scholarships.Count(s => s.IsExpired != true);
+            ViewBag.TotalScholarships = context.Scholarships.Count();
+            ViewBag.ActiveScholarships = context.Scholarships.Count(s => s.IsExpired != true);
 
             // Recent 5 Donations with Donor Details and Scholarship Title
-            var recentDonations = _context.Donations
+            var recentDonations = context.Donations
                 .Include(d => d.ScholarshipFk)
                 .Include(d => d.UserFk)
                 .OrderByDescending(d => d.DonatedAt)
@@ -42,7 +42,7 @@ namespace ScholarBridge.Controllers
                 .ToList();
 
             // Recent 5 Applications with Student and Scholarship Info
-            var recentApplications = _context.Applications
+            var recentApplications = context.Applications
                 .Include(a => a.ScholarshipFk)
                 .Include(a => a.UserFk)
                 .OrderByDescending(a => a.AppliedAt)
@@ -59,7 +59,7 @@ namespace ScholarBridge.Controllers
         public IActionResult Donations()
         {
             // Fetch all donations with their corresponding relationships for a detailed report
-            var allDonations = _context.Donations
+            var allDonations = context.Donations
                 .Include(d => d.ScholarshipFk)
                 .Include(d => d.UserFk)
                 .OrderByDescending(d => d.DonatedAt)
@@ -67,5 +67,43 @@ namespace ScholarBridge.Controllers
 
             return View(allDonations);
         }
+
+
+        [HttpGet]
+        public IActionResult StuList()
+        {
+            var values = context.UserRoles
+                .Include(p => p.UserFk)
+                .ThenInclude(u => u.StudentDetail)
+                .Where(p => p.RoleFkId == 2)
+                .ToList();
+            return View(values);
+        }
+
+        [HttpGet]
+        public IActionResult OrgList()
+        {
+            var values = context.UserRoles
+                .Include(p => p.UserFk)
+                .ThenInclude(z => z.OrganizationDetail)
+                .Where(r => r.RoleFkId == 3)
+                .ToList();
+            return View(values);
+           
+        }
+
+        [HttpGet]
+
+        public IActionResult DonList()
+        {
+            var values = context.UserRoles
+                .Include(p => p.UserFk)
+                .ThenInclude(z=> z.DonorDetail)
+                .Where(r=> r.RoleFkId == 4)
+                .ToList();
+            return View(values);
+        }
+
+
     }
 }

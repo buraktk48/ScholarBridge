@@ -1,0 +1,65 @@
+@model List<ScholarBridge.Models.UserRole>
+
+@{
+    ViewData["Title"] = "Bağışçı Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Sistemdeki Bağışçılar</h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Ad Soyad</th>
+                                <th scope="col">Meslek</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Telefon</th>
+                                <th scope="col">Kayıt Tarihi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                int count = 1;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <th scope="row">@count</th>
+                                        <td class="fw-bold">
+                                            @if (item.UserFk?.DonorDetail != null)
+                                            {
+                                                @($"{item.UserFk.DonorDetail.DonorName} {item.UserFk.DonorDetail.DonorSurname}")
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Bilinmiyor</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @(item.UserFk?.DonorDetail?.Occupation ?? "-")
+                                        </td>
+                                        <td>@item.UserFk?.Email</td>
+                                        <td>@(item.UserFk?.PhoneNumber ?? "-")</td>
+                                        <td>@(item.UserFk?.CreatedAt?.ToString("dd/MM/yyyy") ?? "-")</td>
+                                    </tr>
+                                    count++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center">Kayıtlı bağışçı bulunmamaktadır.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

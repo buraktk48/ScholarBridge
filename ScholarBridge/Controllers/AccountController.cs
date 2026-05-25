@@ -7,6 +7,7 @@ namespace ScholarBridge.Controllers
 {
     public class AccountController : Controller
     {
+        //for RAM optimization
         private readonly ScholarBridgeContext context;
 
         public AccountController(ScholarBridgeContext _context)
@@ -40,6 +41,7 @@ namespace ScholarBridge.Controllers
                 }
 
                 // 2. we prepare the identity card information (Claims)
+                // any claim is any information that we want to use later (such as name , role , id, etc)
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, existingUser.UserId.ToString()), // ID
