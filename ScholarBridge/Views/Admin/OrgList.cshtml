@@ -20,6 +20,8 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Telefon</th>
                                 <th scope="col">Kayıt Tarihi</th>
+                                <th scope="col">Durum</th>
+                                <th scope="col">İşlem</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,6 +41,35 @@
                                         <td>@item.UserFk?.Email</td>
                                         <td>@(item.UserFk?.PhoneNumber ?? "-")</td>
                                         <td>@(item.UserFk?.CreatedAt?.ToString("dd/MM/yyyy") ?? "-")</td>
+                                        <td>
+                                            @if (item.UserFk?.OrganizationDetail?.IsVerified == true)
+                                            {
+                                                <span class="badge bg-success">Onaylı</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-warning text-dark">Bekliyor</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.UserFk?.OrganizationDetail != null)
+                                            {
+                                                @if (item.UserFk.OrganizationDetail.IsVerified != true)
+                                                {
+                                                    <form asp-action="ApproveOrg" method="post" style="display:inline;">
+                                                        <input type="hidden" name="userId" value="@item.UserFk.UserId" />
+                                                        <button type="submit" class="btn btn-sm btn-success">Onayla</button>
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <form asp-action="RejectOrg" method="post" style="display:inline;">
+                                                        <input type="hidden" name="userId" value="@item.UserFk.UserId" />
+                                                        <button type="submit" class="btn btn-sm btn-danger">Reddet</button>
+                                                    </form>
+                                                }
+                                            }
+                                        </td>
                                     </tr>
                                     count++;
                                 }
@@ -46,7 +77,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="6" class="text-center">Kayıtlı kurum bulunmamaktadır.</td>
+                                    <td colspan="8" class="text-center">Kayıtlı kurum bulunmamaktadır.</td>
                                 </tr>
                             }
                         </tbody>

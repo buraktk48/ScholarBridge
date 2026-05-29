@@ -89,7 +89,30 @@ namespace ScholarBridge.Controllers
                 .Where(r => r.RoleFkId == 3)
                 .ToList();
             return View(values);
-           
+        }
+
+        [HttpPost]
+        public IActionResult ApproveOrg(int userId)
+        {
+            var org = context.OrganizationDetails.FirstOrDefault(o => o.UserId == userId);
+            if (org != null)
+            {
+                org.IsVerified = true;
+                context.SaveChanges();
+            }
+            return RedirectToAction("OrgList");
+        }
+
+        [HttpPost]
+        public IActionResult RejectOrg(int userId)
+        {
+            var org = context.OrganizationDetails.FirstOrDefault(o => o.UserId == userId);
+            if (org != null)
+            {
+                org.IsVerified = false;
+                context.SaveChanges();
+            }
+            return RedirectToAction("OrgList");
         }
 
         [HttpGet]

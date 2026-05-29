@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ScholarBridge.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -31,11 +31,14 @@ namespace ScholarBridge.Controllers
                 studentDetail = new StudentDetail();
             }
 
+            var user = context.Users.FirstOrDefault(u => u.UserId == userId);
+            ViewBag.PhoneNumber = user?.PhoneNumber;
+
             return View(studentDetail);
         }
 
         [HttpPost]
-        public IActionResult Profile(StudentDetail updatedProfile, IFormFile? TranscriptFile, IFormFile? StudentCertificateFile, IFormFile? DormitoryFile)
+        public IActionResult Profile(StudentDetail updatedProfile, string? PhoneNumber, IFormFile? TranscriptFile, IFormFile? StudentCertificateFile, IFormFile? DormitoryFile)
         {
             var userIdString = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             int.TryParse(userIdString, out int userId);
@@ -48,6 +51,12 @@ namespace ScholarBridge.Controllers
             {
                 existingStudent = new StudentDetail { UserId = userId };
                 context.StudentDetails.Add(existingStudent);
+            }
+
+            var user = context.Users.FirstOrDefault(u => u.UserId == userId);
+            if (user != null)
+            {
+                user.PhoneNumber = PhoneNumber;
             }
 
             // updating the existing record with the new data

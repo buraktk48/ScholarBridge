@@ -36,6 +36,11 @@
                                 <input asp-for="TaxNumber" class="form-control form-control-lg" placeholder="10 Haneli Vergi Numarası" required />
                             </div>
 
+                            <div class="col-md-6">
+                                <label for="PhoneNumber" class="form-label fw-bold">Telefon Numarası</label>
+                                <input type="text" id="PhoneNumber" name="PhoneNumber" class="form-control form-control-lg" value="@ViewBag.PhoneNumber" placeholder="Örn: 02121234567" />
+                            </div>
+
                             <div class="col-md-12">
                                 <label asp-for="Description" class="form-label fw-bold">Kurum Hakkında / Vizyon <span class="text-danger">*</span></label>
                                 <textarea asp-for="Description" class="form-control" rows="5" placeholder="Vakfınızın amacı, vizyonu ve öğrencilere sağladığı değerlerden kısaca bahsedin..." required></textarea>

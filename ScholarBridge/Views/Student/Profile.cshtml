@@ -36,6 +36,10 @@
                                 <label asp-for="StudentSurname" class="form-label fw-bold">Soyadınız</label>
                                 <input asp-for="StudentSurname" class="form-control" placeholder="Örn: Yılmaz" />
                             </div>
+                            <div class="col-md-6">
+                                <label for="PhoneNumber" class="form-label fw-bold">Telefon Numarası</label>
+                                <input type="text" id="PhoneNumber" name="PhoneNumber" class="form-control" value="@ViewBag.PhoneNumber" placeholder="Örn: 05551234567" />
+                            </div>
 
                             <div class="col-md-12 mt-4">
                                 <h5 class="border-bottom pb-2 text-primary"><i class="bi bi-mortarboard-fill me-2"></i> Eğitim Bilgileri</h5>

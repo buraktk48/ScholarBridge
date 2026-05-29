@@ -68,11 +68,14 @@ namespace ScholarBridge.Controllers
 
             var value = context.OrganizationDetails.FirstOrDefault(x => x.UserId == userId);
 
+            var user = context.Users.FirstOrDefault(u => u.UserId == userId);
+            ViewBag.PhoneNumber = user?.PhoneNumber;
+
             return View(value);
         }
 
         [HttpPost] 
-        public IActionResult Profile(OrganizationDetail organization)
+        public IActionResult Profile(OrganizationDetail organization, string? PhoneNumber)
         {
             var userIdString = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             int.TryParse(userIdString, out int userId);
@@ -84,6 +87,12 @@ namespace ScholarBridge.Controllers
             {
                 existingOrg = new OrganizationDetail { UserId = userId };
                 context.OrganizationDetails.Add(existingOrg);
+            }
+
+            var user = context.Users.FirstOrDefault(u => u.UserId == userId);
+            if (user != null)
+            {
+                user.PhoneNumber = PhoneNumber;
             }
 
             // only updating the form data
